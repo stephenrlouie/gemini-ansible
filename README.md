@@ -1,2 +1,2 @@
-# gem_tools
-Tools used for Gemini
+# gemini
+Gemini project
