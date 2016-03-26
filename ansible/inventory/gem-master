@@ -1,8 +1,0 @@
-# This is an example inventory file for deploying
-# a gemini-master node. Change gem-master-example
-# to the IP/DNS name of your gemini-master node
-# and rename inventory_example_gemini_master to
-# inventory.
-
-[gem-master]
-gem-master-example
