@@ -1,0 +1,66 @@
+---
+# Account name used to SSH to the gemini-master node.
+# The user must be able to use sudo without asking
+# for password unless ansible_sudo_pass is set
+ansible_ssh_user: root
+
+# Password for the ansible_ssh_user. If this is unset you will need to set up
+# ssh keys so a password is not needed.
+ansible_ssh_pass: your_ansible_ssh_user_password
+
+# IP address of the gemini-master node used for PXE booting nodes
+dnsmasq_listen_address: '10.10.10.10'
+
+# Don't change ATM
+dnsmasq_domain_needed: true
+
+# Don't change ATM
+dnsmasq_expand_hosts: true
+
+# Don't change ATM
+dnsmasq_bogus_priv: true
+
+# DNS Domain to use for PXE nodes
+dnsmasq_domain: 'example.com'
+
+# IP address range to use for assigning to PXE-booted nodes
+dnsmasq_dhcp_ranges:
+  - start_addr: '10.10.10.10'
+    end_addr: '10.10.10.250'
+    lease_time: '8h'
+
+# Set specific IP's for hosts within the dnsmasq_dhcp_ranges above
+dnsmasq_dhcp_hosts:
+  - name: 'kube-master'
+    mac: 'a4:4c:11:13:14:69'
+    ip: '10.10.10.10'
+# repeat:  - name:/mac:/ip: for additional hosts
+
+# IP/DNS name of the gemini-master node.
+dnsmasq_tftp_server: 'gem-master.example.com'
+
+# Default PXE boot file. Don't change ATM
+dnsmasq_boot_file: 'pxelinux.0'
+
+# Gateway IP for PXE-booted nodes
+dnsmasq_option_router: '10.10.10.1'
+
+# Don't change ATM
+tftp_server_pxe_support: true
+
+# IP/DNS name of the gem-master.
+# Change gem-master.example.com with the IP/DNS name of your gemini-master node.
+httpd_ServerName: gem-master.example.com
+
+# coreos-cloudinit configuration. Don't change ATM
+cloudinit_write_files: |
+  - path: /etc/profile.d/opt-path.sh
+    owner: root
+    permissions: 0755
+    content: |
+      #! /usr/bin/bash
+      PATH=$PATH/opt/bin
+
+# Replace ssh-rsa ${RSA_KEY} with the RSA key of your gemini-master node.
+cloudinit_ssh_authorized_keys: >
+  ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDycXXAIMkoVOe3bTagGczMjCu9pWu11ntF/dKLoHq3dbSKHx9iCb1uR+JdhS3QnOPhOZGnHshwytH6OF1qjlXugf5gxqvqO/JzR/PrWpsScl4o0GEdkbRD7WCmnUtdstGsl8N/L6MRbU8HCXv4THgkMA/PvvlifYTFg9u+lrwIYec0OF3CsPwouMv7Vn7jh3T4G3hBRETU7+SwzIxbhBapw+azVVv2EF9sjU6vlV3H+vSqs2hJTkD22M2GGj8tM6+kYu0Qh/LYj/QETWfGFrA2kAosLC4xsUA9kEQdJaAOkNMNZJT+aTFhYY0Dd0l7U1EOjbdqj14khJHGQn6ygCaT core@gem-master.example.com

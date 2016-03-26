@@ -1,0 +1,17 @@
+---
+# This playbook deploys a gemini master.
+
+- hosts: gem-master
+  sudo: yes
+  roles:
+    - ansible-controller
+    - dnsmasq
+    - tftp
+    - httpd
+    - coreos-cloudinit
+  tags:
+    - ansible-controller
+    - dnsmasq
+    - tftp
+    - httpd
+    - coreos-cloudinit

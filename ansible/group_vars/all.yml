@@ -1,0 +1,9 @@
+# Add the following to ~/contrib/ansible/group_vars/all.yml
+# Change http://gem-master.example.com to the IP/DNS name
+# of your gemini-master node.
+
+# The URL to download Kubernetes binaries tar file for CoreOS
+kube_download_url: http://gem-master.example.com/releases/kubernetes/1.1.4/kubernetes.tar.gz
+
+# The URL to download Flannel binaries tar file for CoreOS
+flannel_download_url: http://gem-master.exmple.com/releases/flannel/0.5.5/flannel-0.5.5-linux-amd64.tar.gz
