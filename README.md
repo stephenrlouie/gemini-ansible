@@ -4,7 +4,7 @@ Automates the deployment of CoreOS on baremetal for Kubernetes clusters.
 
 Clone this repo:
 ```
-# git clone https://github.com/danehans/gemini.git
+# git clone https://github.com/gemini-project/gemini.git
 ```
 
 Clone the Kubernetes Contrib repo:
