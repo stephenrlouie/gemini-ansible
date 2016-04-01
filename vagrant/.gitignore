@@ -1,0 +1,6 @@
+*.box
+*.DS_Store
+*.gz
+*.tar
+*.vmlinuz
+*.vdi
