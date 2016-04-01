@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: web
+    role: service
+  name: web
+spec:
+  type: NodePort
+  ports:
+    # the port that this service should serve on
+    - name: web
+      nodePort: 30302
+      port: 80
+      protocol: TCP
+  selector:
+    web: "true"
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: web
+spec:
+  replicas: 1
+  selector:
+    web: "true"
+  template:
+    metadata:
+      labels:
+        name: web
+        web: "true"
+        role: web
+    spec:
+      containers:
+      - name: web
+        image: larsks/mini-httpd
+        env:
+          - name: WEB
+            value: "true"
+        ports:
+          - containerPort: 80
