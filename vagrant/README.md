@@ -1,19 +1,26 @@
-#Gemini Master 
+
+# Table of Contents
+- [High Level View] (#high-level-view)
+- [Overview] (#overview)
+- [First Time Setup] (#first-time-setup)
+- [Testing the Cluster] (#testing-the-cluster)
+- [Refreshing Managed Nodes] (#refreshing-managed-nodes)
+- [Demo] (#demo)
+- [Tips] (#tips)
+
+#High Level View: 
+![alt text] (https://github.com/stephenrlouie/gemini_images/blob/master/high-level.png "High Level View")
+
+##Gemini Master 
  - Gemini is a cluster manager that simplifies deploying and operating clustering systems. Gemini uses [Kubernetes] (http://kubernetes.io/) + [CoreOS] (https://coreos.com/) + [Cisco UCS] (http://www.cisco.com/c/en/us/products/servers-unified-computing/index.html) for it's initial reference implementation.
  - This repository creates the **_Gemini Master_** who will be managing the installation / configuration of kubernetes on CoreOS nodes. These controlled nodes will be called **_Managed Nodes_**.
  - Managed Nodes
    - **PXE Boot Managed Nodes**: Blank Machines started in virtualbox and put on an internal network and told to network boot.
  - This Repository will only concern itself with the **_Gemini Master_** and the **_PXE Boot Managed Nodes_**
 
-##Demo
-- [Streaming Link] (https://cisco.webex.com/ciscosales/ldr.php?RCID=1685081ad9ff3361b1fcc68ceb24a282)
-
-##High Level View: 
-![alt text] (https://github.com/stephenrlouie/gemini_images/blob/master/high-level.png "High Level View")
-
 - You specify the three roles in the kubernetes/contrib file [inventory file] (https://github.com/kubernetes/contrib/blob/master/ansible/inventory.example.single_master).
 
-##**Overview**
+#**Overview**
 1. Pull pre-requisite images / tars
 2. Create "build_master" image
 3. Package "build_master" images
@@ -29,8 +36,8 @@
    - These steps take up to 10 minutes to bring up the Gemini Master because we are yum updating, installing and configuring all the parts of the Gemini Master. By packaging up the image and adding it to Vagrant, the start up time goes from 10 minutes to 30 seconds. *It is highly recommended to package this build.*
 
 
-##First Time Setup
-1. Pull the cent image and tars required for Gemini Master (K8s tar, Flannel Tar)
+#First Time Setup
+1. Pull the CentOS 6.7 image and tars required for Gemini Master (K8s tar, Flannel Tar)
  - **Time: 5 Minutes**
  
     `cd start_scripts`
@@ -104,7 +111,7 @@
  `INVENTORY=inventory ./setup.sh --private-key ~/.ssh/ansible_rsa -u core`
 
 
-##Testing the Cluster
+#Testing the Cluster
 1. ssh into the kube master node (whoever you assigned it to in your inventory file)
  `vagrant ssh master`
 
@@ -126,15 +133,20 @@
 
  `kubectl describe pod <pod-name>`
 
-6. curl http://*"POD IP Address":30302* (As seen above)
+![alt text] (https://github.com/stephenrlouie/gemini_images/blob/master/accessWebApp.png)
 
-##Refreshing Managed Nodes
+6. curl `http://192.168.2.5:30302` (As seen above)
+
+#Refreshing Managed Nodes
  - PXE Boot Managed Nodes
   - ./cluster.sh -c <number_of_nodes>
 
  - Repeat step 9 to re-deploy contrib
 
-##Tips
+#Demo
+- [Streaming Link] (https://cisco.webex.com/ciscosales/ldr.php?RCID=1685081ad9ff3361b1fcc68ceb24a282)
+
+#Tips
  - Since you'll be cycling through managed nodes for development / testing it might be useful to add this to your profile / bashrc.
  
    `export ANSIBLE_HOST_KEY_CHECKING=False`
@@ -148,5 +160,5 @@
     - Guest Port: 30302
  4. Open a web browser and go to `localhost:3030` or `http://127.0.0.1:3030`
 
-##Known Issues
+#Known Issues
  - See [open issues] (https://github.com/gemini-project/gemini/issues). All work-arounds will be posted under its corresponding issue.
