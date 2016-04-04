@@ -1,5 +1,6 @@
 #If this box is not on your machine, vagrant up base and make that a base box. Then add that to vagrant
 $cent_box = "cent6_minimal"
+$pre_made_box = "stephenrlouie/gemini_master"
 
 def medium(config)
     config.vm.provider "virtualbox" do |v|
@@ -27,16 +28,16 @@ Vagrant.configure(2) do |config|
         build_boot.vm.provision :shell, path: "provision_scripts/dhcp.sh"
         build_boot.vm.provision :shell, path: "provision_scripts/tftp.sh"
         build_boot.vm.provision :shell, path: "provision_scripts/apache.sh"
-        build_boot.vm.provision :shell, path: "provision_scripts/make_ssh_key.sh", privileged: false
-        build_boot.vm.provision :shell, path: "provision_scripts/copy_ssh_key.sh"
     end
    
     config.vm.define "master", autostart: true do |boot|
         medium(config)
 
-        boot.vm.box = "gemini_master"
+        boot.vm.box = $pre_made_box 
         boot.vm.hostname = "gemini-master"
         boot.vm.network "private_network", ip: "192.168.2.2", virtualbox__intnet: "prov"
+        boot.vm.provision :shell, path: "provision_scripts/make_ssh_key.sh", privileged: false
+        boot.vm.provision :shell, path: "provision_scripts/copy_ssh_key.sh"
         boot.vm.provision :shell, path: "provision_scripts/services.sh"
 
     end

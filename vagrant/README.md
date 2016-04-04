@@ -7,6 +7,7 @@
 - [Refreshing Managed Nodes] (#refreshing-managed-nodes)
 - [Demo] (#demo)
 - [Tips] (#tips)
+- [Known Issues] (#known-issues)
 
 #High Level View: 
 ![alt text] (https://github.com/gemini-project/gemini/blob/master/docs/design/images/high-level.png "High Level View")
@@ -19,73 +20,33 @@
    - **PXE Boot Managed Nodes**: Blank Machines started in virtualbox and put on an internal network and told to network boot.
  - This Repository will only concern itself with the **_Gemini Master_** and the **_PXE Boot Managed Nodes_**
 
-- You specify the three roles in the kubernetes/contrib file [inventory file] (https://github.com/kubernetes/contrib/blob/master/ansible/inventory.example.single_master).
-
 #**Overview**
-1. Pull pre-requisite images / tars
-2. Create "build_master" image
-3. Package "build_master" images
-4. Add image to vagrant
-5. Destroy build_master Image
-6. Deploy pre-built Image
-7. Pull contrib code
-8. Create Managed Nodes
-9. Configure inventory file and run contrib/ansible/setup.sh
-
-
- - Steps 2-5: Can be skipped but are here to save time for later deployments of the virtual environment.
-   - These steps take up to 10 minutes to bring up the Gemini Master because we are yum updating, installing and configuring all the parts of the Gemini Master. By packaging up the image and adding it to Vagrant, the start up time goes from 10 minutes to 30 seconds. *It is highly recommended to package this build.*
-
+1. Deploy pre-built Image
+2. Pull contrib code
+3. Create Managed Nodes
+4. Configure inventory file and run `contrib/ansible/setup.sh`
 
 #First Time Setup
-1. Pull the CentOS 6.7 image and tars required for Gemini Master (K8s tar, Flannel Tar)
- - **Time: 5 Minutes**
- 
-    `cd start_scripts`
-    `./start.sh`
-
-2. Create the master image.
- - This step will yum update, install, configure and start httpd, tftp, and dhcp. It creates a gemini master from scratch. 
- - **Time: 5-10 Minutes**
-
-    `vagrant up build_master`
-
-3. Package up the current image
- - This step will take the good image we made in step 2 and package it for later use and faster depoyment.
- - **Time: 1 Minute**
-
-    ```
-    vagrant package build_master --output <storage_path>/gemini_master.box
-    ```
+1. Deploys the pre-made image. **Time: 30 Seconds** (If you've already pulled *stephenrlouie/gemini_master*)
     
-4. Add to vagrant's box list
- - This will take your pre-made image and make it known to Vagrant. You can view the Vagrant images by running `vagrant box list`
- - **Time: 30 Seconds**
-    
-    ```
-    vagrant box add gemini_master <storage_path>/gemini_master.box
-    ```
-    
-5. Destroys the build_master box. (build_master is there to create our *golden image*)
- - **Time: 10 Seconds**
-    
-    `vagrant destroy -f`
+   ```
+   vagrant up
+   ```
 
-6. Deploys the pre-made image. *Must name the Vagrant reference gemini_master* See the Vagrantfile section for 'master' 
- - **Time: 30 Seconds**
-    
-    `vagrant up`
-
-7. Pull contrib code
+2. Pull contrib code **Time: 30 Seconds**
  - The gemini master must have a copy of the contrib project to deploy to managed nodes.
- 
+ - *Only supports [kubernetes/contrib] (https://github.com/kubernetes/contrib)*
+
    ```
    vagrant ssh master
    git clone https://github.com/kubernetes/contrib 
    ```
- - *Only supports [kubernetes/contrib] (https://github.com/kubernetes/contrib)*
+ 
+ - Uncomment the python_ansible_interpreter line in `contrib/ansible/group_vars/all.yml`
+ 
+ ![alt text] (https://github.com/gemini-project/gemini/blob/master/docs/design/images/ansible_python_interpreter.png)
 
-8. Create Managed Nodes
+3. Create Managed Nodes. **Time: 1 Minute per node**
  1. PXE-Boot Managed Nodes:
    - For more cluster options `./cluster.sh -h`
     
@@ -94,10 +55,9 @@
     ./cluster.sh -c <number_of_nodes>
     ```
 
-9. Configure inventory file and run *contrib/ansible/setup.sh*
- - Both managed node start up methods will bring up machines with pre-selected MAC Addresses.
- 
- This table is just a sample; static mapping will continue up to mac 00:00:00:00:0b in the same pattern shown below. See the DHCP.conf for details.
+4. Configure inventory file and run `contrib/ansible/setup.sh`. **Time: ~45 Minutes**
+
+ - This table is just a sample; static mapping will continue up to mac 00:00:00:00:0b in the same pattern shown below. See the DHCP.conf for details.
 
  |Node Number | MAC Address       | IP          |
  | ---------- | ----------------- | ----------- | 
@@ -121,6 +81,7 @@
  `kubectl get nodes`
 
 3. Create file `web.yml` by copy pasting this [gist] (https://gist.github.com/danehans/cb744bd10084175ccc44). Its also found in our examples.
+
 4. Create the pod, replication controller and service.
  
  `sudo kubectl create -f web.yml`
@@ -129,21 +90,21 @@
 
  `kubectl get pod,rc,svc`
  
- - Wait until the pod is in the *Running* state (can take up to 5 minutes)
- - Once it is running get the pod IP
+ - Wait until the pod is in the *Running* state *(~5 minutes)*
+ - Once it is running get the node IP
 
  `kubectl describe pod <pod-name>`
 
-![alt text] (https://github.com/gemini-project/gemini/blob/master/docs/design/images/accessWebApp.png)
+ ![alt text] (https://github.com/gemini-project/gemini/blob/master/docs/design/images/accessWebApp.png)
 
 
 6. curl `http://192.168.2.5:30302` (As seen above)
 
 #Refreshing Managed Nodes
- - PXE Boot Managed Nodes
-  - ./cluster.sh -c <number_of_nodes>
+ 1. `./cleanup.sh -c <number_of_nodes>`
+ 2. `./cluster.sh -c <number_of_nodes>`
 
- - Repeat step 9 to re-deploy contrib
+ - Repeat step 4 to re-deploy contrib
 
 #Demo
 - [Streaming Link] (https://cisco.webex.com/ciscosales/ldr.php?RCID=1685081ad9ff3361b1fcc68ceb24a282)
