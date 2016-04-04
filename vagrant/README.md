@@ -9,7 +9,9 @@
 - [Tips] (#tips)
 
 #High Level View: 
-![alt text] (https://github.com/stephenrlouie/gemini_images/blob/master/high-level.png "High Level View")
+![alt text] (https://github.com/gemini-project/gemini/blob/image-update/docs/design/images/high-level.png "High Level View")
+
+
 
 ##Gemini Master 
  - Gemini is a cluster manager that simplifies deploying and operating clustering systems. Gemini uses [Kubernetes] (http://kubernetes.io/) + [CoreOS] (https://coreos.com/) + [Cisco UCS] (http://www.cisco.com/c/en/us/products/servers-unified-computing/index.html) for it's initial reference implementation.
@@ -133,7 +135,8 @@
 
  `kubectl describe pod <pod-name>`
 
-![alt text] (https://github.com/stephenrlouie/gemini_images/blob/master/accessWebApp.png)
+![alt text] (https://github.com/gemini-project/gemini/blob/image-update/docs/design/images/accessWebApp.png)
+
 
 6. curl `http://192.168.2.5:30302` (As seen above)
 
