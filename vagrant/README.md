@@ -9,8 +9,7 @@
 - [Tips] (#tips)
 
 #High Level View: 
-![alt text] (https://github.com/gemini-project/gemini/blob/image-update/docs/design/images/high-level.png "High Level View")
-
+![alt text] (https://github.com/gemini-project/gemini/blob/master/docs/design/images/high-level.png "High Level View")
 
 
 ##Gemini Master 
@@ -135,7 +134,7 @@
 
  `kubectl describe pod <pod-name>`
 
-![alt text] (https://github.com/gemini-project/gemini/blob/image-update/docs/design/images/accessWebApp.png)
+![alt text] (https://github.com/gemini-project/gemini/blob/master/docs/design/images/accessWebApp.png)
 
 
 6. curl `http://192.168.2.5:30302` (As seen above)
