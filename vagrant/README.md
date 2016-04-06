@@ -27,7 +27,7 @@
 4. Configure inventory file and run `contrib/ansible/setup.sh`
 
 #First Time Setup
-1. Deploys the pre-made image. **Time: 30 Seconds** (If you've already pulled *stephenrlouie/gemini_master*)
+1. Deploys the pre-made image. **Time: 30 Seconds** (If you've already pulled *stephenrlouie/gemini_master*, if not a download of the image will begin ~800MBs)
     
    ```
    vagrant up
@@ -41,21 +41,29 @@
    vagrant ssh master
    git clone https://github.com/kubernetes/contrib 
    ```
+
+ - Uncomment the **python_ansible_interpreter** line in `contrib/ansible/group_vars/all.yml`
+   - Tells CoreOS where it can find python
+
+ - Add these lines to the bottom of `conrib/ansible/group_vars/all.yml`
+   - Tells nodes to pull binaries from the gemini_master instead of the internet, greatly reducing cluster setup time.
  
- - Uncomment the python_ansible_interpreter line in `contrib/ansible/group_vars/all.yml`
- 
- ![alt text] (https://github.com/gemini-project/gemini/blob/master/docs/design/images/ansible_python_interpreter.png)
+ ```
+ flannel_download_url_base: http://192.168.2.2/downloads/bins/flannel/
+ kube_download_url_base: http://192.168.2.2/downloads/bins/kubernetes/v{{ kube_version }}/
+ pypy_base_url: http://192.168.2.2/downloads/bins/pypy/v{{ pypy_version }}/
+ ```
 
 3. Create Managed Nodes. **Time: 1 Minute per node**
  1. PXE-Boot Managed Nodes:
    - For more cluster options `./cluster.sh -h`
-    
+     - Might have to restart the VM's from Virtualbox so they all PXE boot. Issue: #7
     ```
     cd create_cluster
     ./cluster.sh -c <number_of_nodes>
     ```
 
-4. Configure inventory file and run `contrib/ansible/setup.sh`. **Time: ~45 Minutes**
+4. Configure inventory file and run `contrib/ansible/setup.sh` script. **Time: ~10 Minutes**
 
  - This table is just a sample; static mapping will continue up to mac 00:00:00:00:0b in the same pattern shown below. See the DHCP.conf for details.
 
@@ -90,7 +98,7 @@
 
  `kubectl get pod,rc,svc`
  
- - Wait until the pod is in the *Running* state *(~5 minutes)*
+ - Wait until the pod is in the *Running* state *(5-10 minutes)*
  - Once it is running get the node IP
 
  `kubectl describe pod <pod-name>`
