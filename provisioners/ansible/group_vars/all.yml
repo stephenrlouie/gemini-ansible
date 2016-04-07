@@ -2,8 +2,11 @@
 # Change http://gem-master.example.com to the IP/DNS name
 # of your gemini-master node.
 
-# The URL to download Kubernetes binaries tar file for CoreOS
-kube_download_url: http://gem-master.example.com/releases/kubernetes/1.1.4/kubernetes.tar.gz
+# The URL to download Kubernetes binaries for CoreOS
+kube_download_base_url: http://gem-master.example.com/releases/kubernetes/v{{ kube_version }}
 
 # The URL to download Flannel binaries tar file for CoreOS
-flannel_download_url: http://gem-master.example.com/releases/flannel/0.5.5/flannel-0.5.5-linux-amd64.tar.gz
+flannel_download_base_url: http://gem-master.example.com/releases/flannel
+
+# The URL to download Pypy binaries tar file for CoreOS
+pypy_base_url: http://gem-master.example.com/releases/pypy/v{{ pypy_version }}
