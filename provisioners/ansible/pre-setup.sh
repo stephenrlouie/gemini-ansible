@@ -1,6 +1,6 @@
 #!/bin/bash
 
-base_dir=${BASE_DIR:-~/gemini/ansible/roles}
+base_dir=${BASE_DIR:-~/gemini/provisioners/ansible/playbooks/roles}
 
 #TODO: For loop that checks if ${base_dir}/$file exists before cloning the repos.
 # Pull gemini ansible repos
