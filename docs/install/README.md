@@ -175,7 +175,7 @@ kubernetes   10.254.0.1      <none>        443/TCP    8m
 web          10.254.212.64   nodes         80/TCP     2m
 ```
 
-Make sure the ```READY`` from the above output shows ```1/1``` indicating the desired state and acutal state
+Make sure the ```READY``` from the above output shows ```1/1``` indicating the desired state and acutal state
 of the web pod match. Then test the web service using curl:
 ```
 core@kube-node01 ~ $ curl kube-node01:30302
