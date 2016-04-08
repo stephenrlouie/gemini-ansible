@@ -114,13 +114,13 @@ export GEMINI_MASTER_IP=${YOUR_GEMINI_MASTER_IP}
 cat >> group_vars/all.yml << EOF
 
 # The URL to download Kubernetes binaries for CoreOS
-kube_download_base_url: "http://${GEMINI_MASTER_IP}/releases/kubernetes/v{{ kube_version }}"
+kube_download_url_base: "http://${GEMINI_MASTER_IP}/releases/kubernetes/v{{ kube_version }}"
 
 # The URL to download Flannel binaries tar file for CoreOS
-flannel_download_base_url: "http://${GEMINI_MASTER_IP}/releases/flannel"
+flannel_download_url_base: "http://${GEMINI_MASTER_IP}/releases/flannel"
 
 # The URL to download Pypy binaries tar file for CoreOS
-pypy_base_url: "http://${GEMINI_MASTER_IP}/releases/pypy/v{{ pypy_version }}"
+pypy_download_url_base: "http://${GEMINI_MASTER_IP}/releases/pypy/v{{ pypy_version }}"
 EOF
 ```
 
