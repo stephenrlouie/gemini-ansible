@@ -1,12 +1,28 @@
-# Add the following to ~/contrib/ansible/group_vars/all.yml
-# Change http://gem-master.example.com to the IP/DNS name
-# of your gemini-master node.
+---
+# Account name used to SSH to the gemini-master node.
+# The user must be able to use sudo without asking
+# for password unless ansible_sudo_pass is set
+ansible_ssh_user: my_gemini_master_user
 
-# The URL to download Kubernetes binaries for CoreOS
-kube_download_base_url: http://gem-master.example.com/releases/kubernetes/v{{ kube_version }}
+# DNS Domain to use for PXE nodes
+dnsmasq_domain: 'example.com'
 
-# The URL to download Flannel binaries tar file for CoreOS
-flannel_download_base_url: http://gem-master.example.com/releases/flannel
+# IP address range to use for assigning to PXE-booted nodes
+dnsmasq_dhcp_ranges:
+  - start_addr: '10.10.10.10'
+    end_addr: '10.30.118.100'
+    lease_time: '8h'
 
-# The URL to download Pypy binaries tar file for CoreOS
-pypy_base_url: http://gem-master.example.com/releases/pypy/v{{ pypy_version }}
+# Set specific IP's for hosts within the dnsmasq_dhcp_ranges above
+dnsmasq_dhcp_hosts:
+  - name: 'my_cluster_node'
+    mac: 'AA:BB:44:33:22:11'
+    ip: '10.10.10.10'
+# repeat:  - name:/mac:/ip: for additional hosts
+
+# Gateway IP for PXE-booted nodes
+dnsmasq_option_router: '10.10.10.1'
+
+# Replace ssh-rsa ${RSA_KEY} with the RSA key of your gemini-master node.
+cloudinit_ssh_authorized_keys: >
+  ${RSA_KEY}
