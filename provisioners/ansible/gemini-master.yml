@@ -1,7 +1,7 @@
 ---
 # This playbook deploys a gemini master.
 
-- hosts: gem-master
+- hosts: gem-masters
   sudo: yes
   roles:
     - ansible-controller
