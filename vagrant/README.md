@@ -49,9 +49,14 @@
    - Tells nodes to pull binaries from the gemini_master instead of the internet, greatly reducing cluster setup time.
  
  ```
- flannel_download_url_base: http://192.168.2.2/downloads/bins/flannel/
- kube_download_url_base: http://192.168.2.2/downloads/bins/kubernetes/v{{ kube_version }}/
- pypy_base_url: http://192.168.2.2/downloads/bins/pypy/v{{ pypy_version }}/
+# The URL to download Kubernetes binaries for CoreOS
+kube_download_url_base: "http://192.168.2.2/releases/kubernetes/v{{ kube_version }}"
+
+# The URL to download Flannel binaries tar file for CoreOS
+flannel_download_url_base: "http://192.168.2.2/releases/flannel"
+
+# The URL to download Pypy binaries tar file for CoreOS
+pypy_download_url_base: "http://192.168.2.2/releases/pypy/v{{ pypy_version }}"
  ```
 
 3. Create Managed Nodes. **Time: 1 Minute per node**
