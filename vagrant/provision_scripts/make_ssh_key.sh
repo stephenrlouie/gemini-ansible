@@ -1,1 +1,1 @@
-ssh-keygen -f ansible.rsa -t rsa -N ''
+ssh-keygen -f id_rsa -t rsa -N ''

@@ -1,4 +1,4 @@
 echo -n "  - " >> /var/www/html/coreos/pxe-cloud-config.yml
-cat ansible.rsa.pub >> /var/www/html/coreos/pxe-cloud-config.yml
-cp ansible.rsa.pub /vagrant
-mv ansible.rsa* .ssh/
+cat id_rsa.pub >> /var/www/html/coreos/pxe-cloud-config.yml
+cp id_rsa.pub /vagrant
+mv id_rsa* .ssh/
