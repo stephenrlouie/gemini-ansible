@@ -53,6 +53,16 @@
  kube_download_url_base: http://192.168.2.2/downloads/bins/kubernetes/v{{ kube_version }}/
  pypy_base_url: http://192.168.2.2/downloads/bins/pypy/v{{ pypy_version }}/
  ```
+   - Configures the right adapters for flannel and etcd
+
+ ```
+ #The adapter to use for flannel
+ flannel_opts: "--iface=eth1"
+
+ #The adapter to use for etcd
+ etcd_interface: "eth1"
+ ```
+
 
 3. Create Managed Nodes. **Time: 1 Minute per node**
  1. PXE-Boot Managed Nodes:
@@ -64,7 +74,7 @@
     ```
 
 4. Configure inventory file and run `contrib/ansible/setup.sh` script. **Time: ~10 Minutes**
-
+ - The Maximum number of nodes is 11. You must edit the dhcpd.conf to add more static mappings for more nodes and restart the dhcpd service
  - This table is just a sample; static mapping will continue up to mac 00:00:00:00:0b in the same pattern shown below. See the DHCP.conf for details.
 
  |Node Number | MAC Address       | IP          |
