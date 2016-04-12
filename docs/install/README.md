@@ -117,7 +117,7 @@ cat >> group_vars/all.yml << EOF
 kube_download_url_base: "http://${GEMINI_MASTER_IP}/releases/kubernetes/v{{ kube_version }}"
 
 # The URL to download Flannel binaries tar file for CoreOS
-flannel_download_url_base: "http://${GEMINI_MASTER_IP}/releases/flannel"
+flannel_download_url_base: "http://${GEMINI_MASTER_IP}/releases/flannel/v{{ flannel_version }}"
 
 # The URL to download Pypy binaries tar file for CoreOS
 pypy_download_url_base: "http://${GEMINI_MASTER_IP}/releases/pypy/v{{ pypy_version }}"
