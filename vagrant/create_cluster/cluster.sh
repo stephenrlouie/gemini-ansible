@@ -49,12 +49,13 @@ if [ $PXE_COUNT ]
             VBoxManage createhd --filename $vmName --size 8192;
             VBoxManage storagectl $vmName --name "SATA Controller" --add sata --controller IntelAHCI
             VBoxManage storageattach $vmName --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium $vmName.vdi
-            VBoxManage modifyvm $vmName --ostype Ubuntu --boot1 net --memory 2048;
-            VBoxManage modifyvm $vmName --nic1 intnet --intnet1 prov --nicpromisc1 allow-all;
-            VBoxManage modifyvm $vmName --nictype1 82540EM --macaddress1 $mac --nicspeed1 125000;
+            VBoxManage modifyvm $vmName --boot1 net --memory 2048;
 
-            VBoxManage modifyvm $vmName --nic2 nat --nicpromisc2 allow-all;
-            VBoxManage modifyvm $vmName --nictype2 82540EM;
+            VBoxManage modifyvm $vmName --nic1 nat --nicpromisc1 allow-all --nicbootprio1 4;
+            VBoxManage modifyvm $vmName --nictype1 virtio;
+            
+            VBoxManage modifyvm $vmName --nic2 intnet --intnet2 prov --nicpromisc2 allow-all --nicbootprio2 1;
+            VBoxManage modifyvm $vmName --nictype2 virtio --macaddress2 $mac --nicspeed2 125000;
             
             VBoxManage startvm $vmName --type headless;
         fi
