@@ -1,6 +1,5 @@
 #If this box is not on your machine, vagrant up base and make that a base box. Then add that to vagrant
-$cent_box = "cent6_minimal"
-$pre_made_box = "stephenrlouie/gemini_master"
+$cent_box = "geerlingguy/centos7"
 
 def medium(config)
     config.vm.provider "virtualbox" do |v|
@@ -16,33 +15,16 @@ def large(config)
     end
 end
 
-
 Vagrant.configure(2) do |config|
 
-    config.vm.define "build_master", autostart: false do |build_boot|
+    config.vm.define "gem_master" do |build_boot|
         medium(config)
         build_boot.vm.box = $cent_box
-        build_boot.vm.hostname = "gemini-master"
-        build_boot.vm.network "private_network", ip: "192.168.2.2", virtualbox__intnet: "prov"
-        build_boot.vm.provision :shell, path: "provision_scripts/general.sh"
-        build_boot.vm.provision :shell, path: "provision_scripts/dhcp.sh"
-        build_boot.vm.provision :shell, path: "provision_scripts/tftp.sh"
-        build_boot.vm.provision :shell, path: "provision_scripts/apache.sh"
+        build_boot.vm.hostname = "gem-master01"
+        build_boot.vm.network "private_network", ip: "10.10.10.10", virtualbox__intnet: "prov"
+        build_boot.vm.provision :shell, path: "provision_scripts/packages.sh"
+        build_boot.vm.provision :shell, path: "provision_scripts/build.sh", privileged: false
+        build_boot.vm.provision :shell, path: "provision_scripts/cluster-prep.sh", privileged: false
+        build_boot.vm.provision :shell, path: "provision_scripts/dnsmasq.sh"
     end
-   
-    config.vm.define "master", autostart: true do |boot|
-        medium(config)
-
-        boot.vm.box = $pre_made_box 
-        boot.vm.hostname = "gemini-master"
-        boot.vm.network "private_network", ip: "192.168.2.2", virtualbox__intnet: "prov"
-        boot.vm.provision :shell, path: "provision_scripts/make_ssh_key.sh", privileged: false
-        boot.vm.provision :shell, path: "provision_scripts/copy_ssh_key.sh"
-        boot.vm.provision :shell, path: "provision_scripts/services.sh"
-
-    end
-
 end
-
-
-
