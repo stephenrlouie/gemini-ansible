@@ -25,8 +25,8 @@ to have their Operating System provisioned by the Gemini Master.
 
 Install required packages:
 ```
-rpm -iUvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-yum -y install ansible git ipmitool
+yum -y install git ipmitool python-pip gcc python-devel
+pip install backports.ssl_match_hostname ansible==1.9.4
 ```
 
 Clone the Gemini repository and change to the ```~/gemini/provisioners/ansible/``` directory:
