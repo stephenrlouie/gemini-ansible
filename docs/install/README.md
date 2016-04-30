@@ -25,7 +25,7 @@ to have their Operating System provisioned by the Gemini Master.
 
 Install required packages:
 ```
-yum -y install git ipmitool python-pip gcc python-devel
+yum -y install git python-pip python-devel gcc libffi-devel openssl-devel
 pip install backports.ssl_match_hostname ansible==1.9.4
 ```
 
