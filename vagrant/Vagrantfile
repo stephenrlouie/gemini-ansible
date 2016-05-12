@@ -18,13 +18,14 @@ end
 Vagrant.configure(2) do |config|
 
     config.vm.define "gem_master" do |build_boot|
-        medium(config)
+        large(config)
         build_boot.vm.box = $cent_box
         build_boot.vm.hostname = "gem-master01"
         build_boot.vm.network "private_network", ip: "10.10.10.10", virtualbox__intnet: "prov"
         build_boot.vm.provision :shell, path: "provision_scripts/packages.sh"
-        build_boot.vm.provision :shell, path: "provision_scripts/build.sh", privileged: false
-        build_boot.vm.provision :shell, path: "provision_scripts/cluster-prep.sh", privileged: false
-        build_boot.vm.provision :shell, path: "provision_scripts/dnsmasq.sh"
+        build_boot.vm.provision :shell, path: "provision_scripts/docker.sh", privileged: false
+        #build_boot.vm.provision :shell, path: "provision_scripts/build.sh", privileged: false
+        #build_boot.vm.provision :shell, path: "provision_scripts/cluster-prep.sh", privileged: false
+        #build_boot.vm.provision :shell, path: "provision_scripts/dnsmasq.sh"
     end
 end
