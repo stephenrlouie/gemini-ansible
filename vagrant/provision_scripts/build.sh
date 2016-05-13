@@ -1,5 +1,8 @@
 #Gets the gemini repo
-git clone https://github.com/gemini-project/gemini.git && cd ~/gemini/provisioners/ansible/
+
+gem_ansible_dir=~/gemini-ansible/provisioners/ansible
+
+git clone https://github.com/gemini-project/gemini-ansible.git && cd $gem_ansible_dir 
 
 #Sets the ssh user name
 sed -i "s/ansible_ssh_user: my_gemini_master_user/ansible_ssh_user: vagrant/" group_vars/all.yml
@@ -26,8 +29,8 @@ sed -i '$ d' group_vars/all.yml
 ./pre-setup.sh
 
 #Copys the ssh key into position
-echo -n " " >> ~/gemini/provisioners/ansible/group_vars/all.yml
-cat ~/.ssh/id_rsa.pub >> ~/gemini/provisioners/ansible/group_vars/all.yml
+echo -n " " >> $gem_ansible_dir/group_vars/all.yml
+cat ~/.ssh/id_rsa.pub >> $gem_ansible_dir/group_vars/all.yml
 
 #Replaces the ansible fact to use the correct IP address, Vagrant has to have a NAT adapter as the default, so we need to assign http, tftp, dhcp to run on the second adapter that can reach our cluster
 grep -rl "ansible_default_ipv4.address" . | xargs sed -i 's/ansible_default_ipv4.address/ansible_enp0s8.ipv4.address/'
