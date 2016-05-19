@@ -4,12 +4,14 @@
 - hosts: gem-masters
   sudo: yes
   roles:
+    - docker
     - ansible-controller
     - dnsmasq
     - tftp
     - httpd
     - coreos-cloudinit
   tags:
+    - docker
     - ansible-controller
     - dnsmasq
     - tftp
