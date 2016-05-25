@@ -5,15 +5,7 @@
   sudo: yes
   roles:
     - docker
-    - ansible-controller
-    - dnsmasq
-    - tftp
-    - httpd
-    - coreos-cloudinit
+    - foreman 
   tags:
     - docker
-    - ansible-controller
-    - dnsmasq
-    - tftp
-    - httpd
-    - coreos-cloudinit
+    - foreman 
