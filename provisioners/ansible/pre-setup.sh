@@ -5,7 +5,7 @@ contrib_base_dir=${CONTRIB_BASE_DIR:-~}
 
 echo "-> Setting Up SSH"
 ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
-cat "\n" >> ~/.ssh/authorized_keys
+echo " " >> ~/.ssh/authorized_keys
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
 #TODO: For loop that checks if ${base_dir}/$file exists before cloning the repos.
